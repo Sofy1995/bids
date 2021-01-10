@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Список заявок</h1>
+
+
+    {% if bid_list %}
+
+
+<table class="table">
+   <tr><th>Номер заявки</th>
+       <th>Тип</th>
+       <th>Содержание</th>
+       <th>Заявитель</th>
+       <th>Исполнитель</th>
+       <th>Дата создания</th>
+       <th>Состояние</th>
+   </tr>
+    {% for bid in bid_list %}
+   <tr>
+       <td><a href="{{ bid.get_absolute_url }}">{{ bid.id }}</a></td>
+       <td>{{ bid.type_bid }}</td>
+       <td>{{ bid.text }}</td>
+       <td>{{ bid.bider }}</td>
+       <td>{{ bid.maker }}</td>
+       <td>{{ bid.time_creation }}</td>
+       <td>{{ bid.status }} <input type="button" name="change" value="change"> </td>
+   </tr>
+    {% endfor %}
+</table>
+
+
+    {% else %}
+      <p>Заявок нет.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Принять" name="_do_assept"/>
+    <input type="reset" value="Очистить" name="_do_cancel"></p>
+    <input type="button" value="Нажми на меня" name="_push_on_me">
+
+</form>
+{% endblock %}

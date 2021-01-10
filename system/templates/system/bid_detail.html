@@ -1,0 +1,15 @@
+
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Заявка №:{{ bid.id }}</h1>
+  <p><strong>Тип:</strong> {{ bid.type_bid }}</p>
+  <p><strong>Текст заявки:</strong> {{ bid.text }}</p>
+  <!--
+  <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+   -->
+<div class="submit-row">
+  <input type="button" value="Редактировать заявку" onClick="location.href='{% url "bid-update" bid.pk %}'">
+  <input type="button" value="Удалить заявку" onClick="location.href='{% url "bid-delete" bid.pk %}'">
+</div>
+{% endblock %}

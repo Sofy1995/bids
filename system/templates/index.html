@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+
+<script language="javascript" type="text/javascript">
+var d = new Date();
+
+var day=new Array("Воскресенье","Понедельник","Вторник",
+"Среда","Четверг","Пятница","Суббота");
+
+var month=new Array("января","февраля","марта","апреля","мая","июня",
+"июля","августа","сентября","октября","ноября","декабря");
+
+document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
++ " " + d.getFullYear() + " г.");
+</script>
+
+<h3>Состояние работ:</h3>
+
+<!--  <p>The state of work:</p>-->
+  <ul>
+    <li><strong>Заявок всего:</strong> {{ num_bids }}</li>
+    <li><strong>Заявок не начато:</strong> {{ num_bids_a }}</li>
+    <li><strong>Заявок в работе:</strong> {{ num_bids_w }}</li>
+    <li><strong>Заявок завершено:</strong> {{ num_bids_f }}</li>
+
+  </ul>
+
+
+<!--<h3>Список заявок:</h3>-->
+
+<title>Тег table</title>
+  <style>
+   table {
+    width: 100%; /* Ширина таблицы */
+    background: white; /* Цвет фона таблицы */
+    color: white; /* Цвет текста */
+    border-spacing: 1px; /* Расстояние между ячейками */
+   }
+   td, th {
+    background: #3E5240; /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг текста */
+   }
+  </style>
+
+ <!--
+  <table>
+   <tr><th>Number</th><th>Text</th><th>Bider</th><th>Maker</th><th>Date of creation</th></tr>
+   <tr><td>{{ one_bid.id }}</td><td>{{ one_bid.text }}</td><td>{{ one_bid.bider }}</td><td>{{ one_bid.maker }}</td><td>{{ one_bid.time_creation }}</td></tr>
+  </table>
+-->
+{% endblock %}
