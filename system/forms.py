@@ -32,7 +32,7 @@ class CreateBidForm(forms.Form):
     bider = forms.CharField(initial='', required=False, label='Заявитель')
     # bider = models.ForeignKey('Bider', on_delete=models.SET_NULL, null=True)
     maker = forms.ModelChoiceField(boys, required=False, label='Исполнитель')
-    helper = forms.ModelChoiceField(boys, required=False, label='Ассистент')
+    helper = forms.CharField(initial='', required=False, label='Ассистент')
     # helper = models.ManyToManyField('Helper')
     # time_creation = forms.DateTimeField()
     # time_start = forms.DateTimeField()
