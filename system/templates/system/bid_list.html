@@ -7,7 +7,7 @@
     {% if bid_list %}
 
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Поиск по содержанию.." title="Type in a name">
-
+<p></p>
 <table class="table table-striped" id="myTable">
    <tr class="header"><th>Номер заявки</th>
        <th>Тип</th>
@@ -20,6 +20,7 @@
        <th>Начало работы</th>
        <th>Завершение работы</th>
        <th>Состояние</th>
+       <th></th>
    </tr>
     {% for bid in bid_list %}
    <tr>
@@ -29,21 +30,31 @@
        <td>{{ bid.location }}</td>
        <td>{{ bid.telephone_num }}</td>
        <td>{{ bid.bider }}</td>
-       <td>{{ bid.maker }}</td>
+       <td>{% if bid.maker == None %}
+           <button type="button" class="btn btn-primary btn-sm">Взять заявку</button>
+           {% else %}
+           {{ bid.maker }}
+            {% endif %}
+       </td>
        <td>{{ bid.time_creation|date:"d.m.Y H:i" }}</td>
        <td>{{ bid.time_start|date:"d.m.Y H:i" }}</td>
        <td>{{ bid.time_done|date:"d.m.Y H:i" }}</td>
        <td>
-           {% if bid.status == "a" %}<span class="badge bg-primary">Принята</span>
+
+           {% if bid.status == "a" %}<h4><span class="badge bg-primary">Принята</span></h4>
            {% endif %}
 
-           {% if bid.status == "w" %}<span class="badge bg-danger">В работе</span>
+           {% if bid.status == "w" %}<h4><span class="badge bg-danger">В работе</span></h4>
            {% endif %}
 
-           {% if bid.status == "f" %}<span class="badge bg-success">Выполнено</span>
+           {% if bid.status == "f" %}<h4><span class="badge bg-success">Выполнено</span></h4>
            {% endif %}
-
        </td>
+       <td><a class="btn btn-secondary btn-sm" href='{% url "bid-update" bid.pk %}' role="button"><i class="bi bi-pencil"></i></a></td>
+
+
+
+
    </tr>
     {% endfor %}
 </table>

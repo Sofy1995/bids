@@ -20,6 +20,7 @@ def index(request):
     num_bids_a=Bid.objects.all().filter(status='a').count()
     num_bids_w=Bid.objects.all().filter(status='w').count()
     num_bids_f=Bid.objects.all().filter(status='f').count()
+    num_bids_f_month=Bid.objects.filter(status='f').filter(time_done__month=datetime.datetime.today().month).count()
 
     all_stickers = Sticker.objects.all().filter(status='v')
 
@@ -31,7 +32,8 @@ def index(request):
                 user_num_bids_w=Bid.objects.filter(maker=user).filter(status='w').count()
                 user_num_bids_f=Bid.objects.filter(maker=user).filter(status='f').count()
                 user_num_bids=user_num_bids_a+user_num_bids_w+user_num_bids_f
-                all_users.append((user.get_username(), user_num_bids, user_num_bids_a, user_num_bids_w, user_num_bids_f,))
+                user_num_bids_f_month=Bid.objects.filter(maker=user).filter(status='f').filter(time_done__month=datetime.datetime.today().month).count()
+                all_users.append((user.get_username(), user_num_bids, user_num_bids_a, user_num_bids_w, user_num_bids_f,user_num_bids_f_month,))
 
             return render(
                         request,
@@ -40,6 +42,7 @@ def index(request):
                                  'num_bids_a': num_bids_a,
                                  'num_bids_w': num_bids_w,
                                  'num_bids_f': num_bids_f,
+                                 'num_bids_f_month': num_bids_f_month,
                                  'all_stickers': all_stickers,
                                  'all_users': all_users},
     )
@@ -48,6 +51,7 @@ def index(request):
         user_num_bids_w=Bid.objects.filter(maker=request.user).filter(status='w').count()
         user_num_bids_f=Bid.objects.filter(maker=request.user).filter(status='f').count()
         user_num_bids=user_num_bids_a+user_num_bids_w+user_num_bids_f
+        user_num_bids_f_month=Bid.objects.filter(maker=request.user).filter(status='f').filter(time_done__month=datetime.datetime.today().month).count()
 
         return render(
                         request,
@@ -56,11 +60,13 @@ def index(request):
                                  'num_bids_a': num_bids_a,
                                  'num_bids_w': num_bids_w,
                                  'num_bids_f': num_bids_f,
+                                 'num_bids_f_month': num_bids_f_month,
                                  'all_stickers': all_stickers,
                                  'user_num_bids': user_num_bids,
                                  'user_num_bids_a': user_num_bids_a,
                                  'user_num_bids_w': user_num_bids_w,
-                                 'user_num_bids_f': user_num_bids_f},
+                                 'user_num_bids_f': user_num_bids_f,
+                                 'user_num_bids_f_month': user_num_bids_f_month},
     )
 
     return render(
@@ -220,14 +226,16 @@ def bid_update(request, pk):
             bid.bider = form.cleaned_data['bider']
             bid.maker = form.cleaned_data['maker']
             bid.helper = form.cleaned_data['helper']
-            bid.status = form.cleaned_data['status']
+            # bid.status = form.cleaned_data['status']
             bid.result = form.cleaned_data['result']
             bid.comment = form.cleaned_data['comment']
-            if bid.status == "w":
-                bid.time_start = datetime.datetime.today()
-            elif bid.status == "f":
-                # bid.time_start = datetime.datetime.today()
-                bid.time_done = datetime.datetime.today()
+            if bid.status != form.cleaned_data['status']:
+                bid.status = form.cleaned_data['status']
+                if bid.status == "w":
+                    bid.time_start = datetime.datetime.today()
+                elif bid.status == "f":
+                    # bid.time_start = datetime.datetime.today()
+                    bid.time_done = datetime.datetime.today()
             bid.save()
 
             # redirect to a new URL:

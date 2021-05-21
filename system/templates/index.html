@@ -25,6 +25,9 @@ document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
     <th>Заявок не начато</th>
     <th>Заявок в работе</th>
     <th>Заявок завершено</th>
+    {% if user.is_authenticated %}
+    <th>Завершено в этом месяце</th>
+    {% endif %}
   </tr>
   <tr>
     <td>ИТ служба</td>
@@ -32,6 +35,10 @@ document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
     <td>{{ num_bids_a }}{% if num_bids_a != 0 %} <span class="badge rounded-pill bg-primary">!</span> {% endif %}</td>
     <td>{{ num_bids_w }}{% if num_bids_w != 0 %} <span class="badge rounded-pill bg-danger">!</span> {% endif %}</td>
     <td>{{ num_bids_f }}</td>
+    {% if user.is_authenticated %}
+    <td>{{ num_bids_f_month }}</td>
+    {% endif %}
+
   </tr>
     {% if user.is_authenticated and not perms.system.delete_bid %}
   <tr>
@@ -40,6 +47,7 @@ document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
     <td>{{ user_num_bids_a }}{% if user_num_bids_a != 0 %} <span class="badge rounded-pill bg-primary">!</span> {% endif %}</td>
     <td>{{ user_num_bids_w }}{% if user_num_bids_w != 0 %} <span class="badge rounded-pill bg-danger">!</span> {% endif %}</td>
     <td>{{ user_num_bids_f }}</td>
+    <td>{{ user_num_bids_f_month }}</td>
   </tr>
     {% endif %}
 
@@ -51,6 +59,7 @@ document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
     <td>{{ boy.2 }} {% if boy.2 != 0 %} <span class="badge rounded-pill bg-primary">!</span> {% endif %} </td>
     <td>{{ boy.3 }}{% if boy.3 != 0 %} <span class="badge rounded-pill bg-danger">!</span> {% endif %}</td>
     <td>{{ boy.4 }}</td>
+    <td>{{ boy.5 }}</td>
     </tr>
     {% endfor %}
     {% endif %}
@@ -62,11 +71,11 @@ document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
 <div class="row row-cols-1 row-cols-md-3 g-4">
 {% for sticker in all_stickers %}
 <div class="col-sm-3">
-<div class="card" style="width: 18rem;">
+<div class="card w-100">
 
   <div class="card-body">
     <h5 class="card-title">Стикер # {{ sticker.id }}</h5>
-    <p class="card-text">{{ sticker }}</p>
+    <p class="card-text"><pre style="font-size:15px;font-family:verdana;">{{ sticker }}</pre></p>
     {% if perms.system.delete_sticker %}
     <a href="{% url 'sticker-delete' sticker.pk %}" class="btn btn-primary">Удалить</a>
     {% endif %}
